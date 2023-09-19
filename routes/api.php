@@ -19,3 +19,9 @@ Route::post('login', [UserController::class, 'login']);
 Route::post('register', [UserController::class, 'register']);
 Route::post('logout', [UserController::class, 'logout']);
 Route::post('refresh', [UserController::class, 'refresh']);
+
+Route::prefix('/user')->group(function(){
+    Route::get('show', [UserController::class, 'show']);
+    Route::put('update/{user}', [UserController::class, 'update']);
+    Route::delete('delete/{user}', [UserController::class, 'delete']);
+});

@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
-
 {
     public function __construct()
     {
@@ -19,6 +18,12 @@ class UserController extends Controller
                 'register',
             ]
         ]);
+    }
+
+    public function show()
+    {
+        $users = User::all();
+        return response()->json([$users], 200);
     }
 
     public function register(Request $request)
@@ -40,6 +45,34 @@ class UserController extends Controller
             'message' => 'User created successfully',
             'user' => $user
         ], 201);
+    }
+
+    public function update(Request $request, User $user)
+    {
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'username' => 'required|string|max:10',
+            'email' => 'required|string|email|max:255',
+            'password' => 'required|string|min:6',
+            'biography' => 'string|max:255',
+            'profile_pic' => 'string',
+        ]);
+
+        $user->update($data);
+
+        return response()->json([
+            'message' => 'User updated successfully',
+            'user' => $user
+        ], 200);
+    }
+
+    public function delete(User $user)
+    {
+        $user->delete();
+
+        return response()->json([
+            'message' => 'User deleted successfuly'
+        ], 200);
     }
 
     public function login(Request $request)
