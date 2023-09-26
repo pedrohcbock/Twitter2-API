@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -30,7 +30,7 @@ class UserController extends Controller
     {
         $data = $request->validate([
             'name' => 'required|string|max:255',
-            'username' => 'required|string|max:10|unique:users',
+            'username' => 'required|string|unique:users',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6',
             'biography' => 'string|max:255',
