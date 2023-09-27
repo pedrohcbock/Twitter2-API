@@ -13,9 +13,15 @@ class PostController extends Controller
         $this->middleware('auth:api');
     }
 
-    public function show()
+    public function showAll()
     {
         $posts = Post::all();
+        return response()->json([$posts], 200);
+    }
+
+    public function showMy()
+    {
+        $posts = Post::where('user', Auth::id())->get();
         return response()->json([$posts], 200);
     }
 
