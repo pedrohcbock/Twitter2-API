@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller
 {
@@ -21,7 +23,8 @@ class PostController extends Controller
 
     public function showMy()
     {
-        $posts = Post::where('user', Auth::id())->get();
+        $user = Auth::id();
+        $posts = DB::table('posts')->where('user', $user)->get();
         return response()->json([$posts], 200);
     }
 
@@ -29,6 +32,7 @@ class PostController extends Controller
     {
 
         $data = $request->validate([
+            'user' => 'required',
             'title' => 'required|string|max:255',
             'content' => 'required|string|max:255'
         ]);
