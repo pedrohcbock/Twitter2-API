@@ -68,4 +68,22 @@ class PostController extends Controller
             'message' => 'Post deleted successfuly'
         ], 200);
     }
+
+    public function like($post)
+    {
+        $post = Post::find($post);
+        $post->like();
+        $post->save();
+
+        return response()->json(['message', 'Post liked successfully'], 200);
+    }
+
+    public function unlike($post)
+    {
+        $post = Post::find($post);
+        $post->unlike();
+        $post->save();
+
+        return response()->json(['message', 'Post unliked successfully'], 200);
+    }
 }
