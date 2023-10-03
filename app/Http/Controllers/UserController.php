@@ -34,10 +34,15 @@ class UserController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6',
             'biography' => 'string|max:255',
-            'profile_pic' => 'string',
+            'profile_pic' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         $data['password'] = Hash::make($data['password']);
+
+        if ($request->hasFile('profile_pic')) {
+            $imagePath = $request->file('profile_pic')->store('profile_pics', 'public');
+            $data['profile_pic'] = $imagePath;
+        }
 
         $user = User::create($data);
 
