@@ -28,22 +28,24 @@ class PostController extends Controller
         return response()->json([$posts], 200);
     }
 
-    public function create(Request $request)
-    {
+public function create(Request $request)
+{
+    $user = auth()->user();
+    
+    $data = $request->validate([
+        'title' => 'required|string|max:255',
+        'content' => 'required|string|max:255',
+    ]);
 
-        $data = $request->validate([
-            'user' => 'required',
-            'title' => 'required|string|max:255',
-            'content' => 'required|string|max:255'
-        ]);
+    $data['user'] = $user->id;
 
-        $post = Post::create($data);
+    $post = Post::create($data);
 
-        return response()->json([
-            'message' => 'Post created successfully',
-            'post' => $post
-        ], 201);
-    }
+    return response()->json([
+        'message' => 'Post created successfully',
+        'post' => $post,
+    ], 201);
+}
 
     public function update(Request $request, Post $post)
     {
