@@ -20,12 +20,6 @@ class UserController extends Controller
         ]);
     }
 
-    public function show()
-    {
-        $users = User::all();
-        return response()->json([$users], 200);
-    }
-
     public function register(Request $request)
     {
         $data = $request->validate([
