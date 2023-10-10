@@ -9,9 +9,13 @@ use Illuminate\Database\Eloquent\Model;
 class Post extends Model
 {
     use HasFactory, Likeable;
-
     protected $fillable = [
         'title',
-        'content'
+        'content',
+        'user'
     ];
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user');
+    }
 }

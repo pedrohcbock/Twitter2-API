@@ -7,7 +7,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;;
+use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
+
+;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -21,7 +23,6 @@ class User extends Authenticatable implements JWTSubject
     protected $fillable = [
         'name',
         'email',
-        'password',
         'username',
         'biography',
         'profile_pic',
@@ -33,7 +34,9 @@ class User extends Authenticatable implements JWTSubject
      * @var array<int, string>
      */
     protected $hidden = [
+        'created_at',
         'password',
+        'updated_at',
         'remember_token',
     ];
 

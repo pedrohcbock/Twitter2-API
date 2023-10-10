@@ -17,7 +17,9 @@ class PostController extends Controller
 
     public function showAll()
     {
-        $posts = Post::all();
+        $posts = Post::select('title', 'content', 'user')
+        ->with('user:id,name')
+        ->get();
         return response()->json([$posts], 200);
     }
 
@@ -28,24 +30,24 @@ class PostController extends Controller
         return response()->json([$posts], 200);
     }
 
-public function create(Request $request)
-{
-    $user = auth()->user();
-    
-    $data = $request->validate([
-        'title' => 'required|string|max:255',
-        'content' => 'required|string|max:255',
-    ]);
+    public function create(Request $request)
+    {
+        $user = auth()->user();
 
-    $data['user'] = $user->id;
+        $data = $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required|string|max:255',
+        ]);
 
-    $post = Post::create($data);
+        $data['user'] = $user->id;
 
-    return response()->json([
-        'message' => 'Post created successfully',
-        'post' => $post,
-    ], 201);
-}
+        $post = Post::create($data);
+
+        return response()->json([
+            'message' => 'Post created successfully',
+            'post' => $post,
+        ], 201);
+    }
 
     public function update(Request $request, Post $post)
     {
