@@ -99,6 +99,17 @@ class UserController extends Controller
         ]);
     }
 
+    public function getUserData($user)
+    {
+        $user = User::find($user);
+
+        if (!$user) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+
+        return response()->json(['user' => $user], 200);
+    }
+
     public function logout()
     {
         Auth::logout();
