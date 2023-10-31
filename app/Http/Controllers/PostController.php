@@ -17,17 +17,17 @@ class PostController extends Controller
 
     public function showAll()
     {
-        $posts = Post::select('title', 'content', 'user')
-        ->with('user:id,name')
-        ->get();
+        $posts = Post::select('id', 'title', 'content', 'user')
+            ->with('user:id,name')
+            ->get();
         return response()->json([$posts], 200);
     }
 
     public function showMy()
     {
         $user = Auth::id();
-        $posts = DB::table('posts')->where('user', $user)->get();
-        return response()->json([$posts], 200);
+        $posts = Post::select('id', 'title', 'content')->where('user', $user)->get();
+        return response()->json($posts, 200);
     }
 
     public function create(Request $request)

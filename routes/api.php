@@ -22,7 +22,7 @@ Route::post('logout', [UserController::class, 'logout']);
 Route::post('refresh', [UserController::class, 'refresh']);
 
 Route::prefix('/user')->group(function () {
-    Route::put('update/{user}', [UserController::class, 'update']);
+    Route::post('update/{user}', [UserController::class, 'update']);
     Route::delete('delete/{user}', [UserController::class, 'delete']);
     Route::get("userData/{user}", [UserController::class, 'getUserData']);
 });
