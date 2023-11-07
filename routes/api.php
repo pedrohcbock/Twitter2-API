@@ -31,8 +31,9 @@ Route::prefix('/post')->group(function () {
     Route::get('showAll', [PostController::class, 'showAll']);
     Route::get('showMy', [PostController::class, 'showMy']);
     Route::post('create', [PostController::class, 'create']);
-    Route::put('update/{post}', [PostController::class, 'update']);
+    Route::post('update/{post}', [PostController::class, 'update']);
     Route::delete('delete/{post}', [PostController::class, 'delete']);
     Route::post('like/{post}', [PostController::class, 'like'])->name('like');
     Route::post('unlike/{post}', [PostController::class, 'unlike'])->name('unlike');
+    Route::get("postData/{post}", [PostController::class, 'getPostData']);
 });

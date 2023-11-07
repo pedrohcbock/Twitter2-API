@@ -15,6 +15,17 @@ class PostController extends Controller
         $this->middleware('auth:api');
     }
 
+    public function getPostData($post)
+    {
+        $post = Post::find($post);
+
+        if (!$post) {
+            return response()->json(['message' => 'Post not found'], 404);
+        }
+
+        return response()->json(['user' => $post], 200);
+    }
+
     public function showAll()
     {
         $posts = Post::select('id', 'title', 'content', 'user')
