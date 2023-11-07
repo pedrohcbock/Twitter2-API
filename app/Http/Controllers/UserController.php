@@ -22,7 +22,7 @@ class UserController extends Controller
 
     public function register(Request $request)
     {
-        $data = $request->validate([
+        $request->validate([
             'name' => 'required|string|max:255',
             'username' => 'required|string|unique:users',
             'email' => 'required|string|email|max:255|unique:users',
@@ -31,12 +31,15 @@ class UserController extends Controller
             'profile_pic' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $data['password'] = Hash::make($data['password']);
+        $data = $request->all();
 
         if ($request->hasFile('profile_pic')) {
-            $imagePath = $request->file('profile_pic')->store('profile_pics', 'public');
-            $data['profile_pic'] = $imagePath;
+            $imagePath = $request->file('profile_pic')->getClientOriginalName();
+            $request->file('profile_pic')->move(public_path('profile_pics'), $imagePath);
+            $data['profile_pic'] = 'profile_pics/' . $imagePath;
         }
+
+        $data['password'] = Hash::make($data['password']);
 
         $user = User::create($data);
 
@@ -45,6 +48,8 @@ class UserController extends Controller
             'user' => $user
         ], 201);
     }
+
+
 
     public function update(Request $request, User $user)
     {
